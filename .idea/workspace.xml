@@ -54,7 +54,7 @@
       <file leaf-file-name="edit-moment.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/edit-moment.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
+            <state vertical-scroll-proportion="-0.14018692">
               <caret line="20" column="24" selection-start-line="20" selection-start-column="24" selection-end-line="20" selection-end-column="24" />
               <folding />
             </state>
@@ -152,7 +152,8 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="y" value="23" />
+    <option name="x" value="-157" />
+    <option name="y" value="347" />
     <option name="width" value="720" />
     <option name="height" value="873" />
   </component>
@@ -311,7 +312,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="720" height="873" extended-state="0" />
+    <frame x="-157" y="347" width="720" height="873" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4652778" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -641,7 +642,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/edit-moment.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state vertical-scroll-proportion="-0.14018692">
           <caret line="20" column="24" selection-start-line="20" selection-start-column="24" selection-end-line="20" selection-end-column="24" />
           <folding />
         </state>
