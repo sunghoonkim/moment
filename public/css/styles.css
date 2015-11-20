@@ -1,11 +1,8 @@
-/*  CSS Document - lynda.com  */
 
 body{
-
     margin:0px;
     padding:20px 10px 20px 30px;
     font:14px Helvetica;
-    /*color:#bd8a1e;*/
     background-color:#ffffff;
 }
 
@@ -17,15 +14,6 @@ img.background {
     position:fixed; right:0px; bottom:0px;
    }
 
-/*.title{*/
-    /*position:fixed;*/
-    /*top:0px;*/
-    /*left:0px;*/
-    /*width:70px;*/
-    /*height:100%;*/
-
-/*}*/
-
 .gallery {
     width:80%; margin:0px auto; position:relative;
 }
@@ -33,8 +21,6 @@ img.background {
 .gallery .sorting {
     
     margin:0px 0px 15px 0px;
-    /*border:1px solid #6d4d2e;*/
-    /*background-color: rgba(109,77,46,.3);*/
 }
 
 .gallery .sorting span a{
@@ -51,34 +37,25 @@ img.background {
 
 .gallery .sorting a {
     color: #000;
-    font-size: .85em;
+    font-size: .75em;
     text-decoration: none;
     text-transform: uppercase;
     padding:3px 20px 3px 20px;
-    /*background:url(/images/check_normal.gif) no-repeat 0px 3px;*/
-
-
 }
 
-.gallery .sorting a:hover {
-    /*color: #e5aa2c;*/
-}
+.gallery .sorting a:hover {}
 
-.gallery .sorting a.selected{
-    /*color: #e5aa2c;*/
-    /*background-image:url(/images/check_selected.gif);*/
-}
+.gallery .sorting a.selected{}
 
 .gallery .photos .thumbnail_container {
     position: relative;
-    /*background-color:#999113;*/
 }
 .gallery .photos .thumbnail_container a.thumbnail {
     position:absolute;
 }
 
 .gallery .photos .thumbnail_container a.thumbnail img{
-    width:25px; height:25px; border:0px solid #fff
+    width:20px; height:20px; border:0px solid #fff
 }
 
 .clear_both{clear:both; line-height: 1px;}

@@ -1,11 +1,3 @@
-/**************/
-/* Custom CSS */
-/**************/
-
-/*-----------------------------------------------------------------------------------*/
-/*	    mock1
-/*      Built with Blocs
-/*-----------------------------------------------------------------------------------*/
 
 body{
     margin:0;
@@ -17,26 +9,15 @@ body{
 }
 a:hover{text-decoration: none; cursor:pointer;}
 
-a,button{outline: none!important;} /* Prevent ugly blue glow on chrome and safari */
+a,button{outline: none!important;}
 
-
-
-
-
-/* Globals type styling */
 h1, h2, h3, h4, h5, h6, p, label, .btn, a{
     font-family:"Helvetica";
 }
 
-
-/* Site container width */
-
 .container{
     max-width:750px;
 }
-
-/* = Blocs
--------------------------------------------------------------- */
 
 .bloc{
     width:100%;
@@ -54,15 +35,9 @@ h1, h2, h3, h4, h5, h6, p, label, .btn, a{
     padding-right:0;
 }
 
-
-/* Sizes */
-
 .bloc-lg{
     padding:100px 50px;
 }
-
-
-/* Light theme */
 
 .l-bloc{
     color:rgba(0,0,0,.5);
@@ -92,13 +67,6 @@ h1, h2, h3, h4, h5, h6, p, label, .btn, a{
     color:rgba(0,0,0,.7);
     border-color:rgba(0,0,0,.3);
 }
-
-/* Bloc text custom styling */
-
-
-/* = NavBar
--------------------------------------------------------------- */
-
 .navbar{
     margin-bottom: 0;
     z-index:1;
@@ -146,8 +114,6 @@ h1, h2, h3, h4, h5, h6, p, label, .btn, a{
     background-color: rgba(0,0,0,.5);
     width: 26px;
 }
-/* Inverted navbar */
-
 .nav-invert .navbar .nav{
     float:left;
 }
@@ -192,16 +158,10 @@ nav .caret{
     margin: 0 5px;
 }
 
-/* = Bric adjustment margins
--------------------------------------------------------------- */
-
 .mg-md{
     margin-top:10px;
     margin-bottom:20px;
 }
-
-/* = Buttons
--------------------------------------------------------------- */
 
 .btn{
     margin: 0 5px 5px 0;
@@ -214,7 +174,6 @@ nav .caret{
     background:rgba(0,0,0,.3);
 }
 
-/* Prevent ugly blue glow on chrome and safari */
 button{
     outline: none!important;
 }
@@ -242,8 +201,7 @@ button{
 .btn .caret{
     margin:0 0 0 5px}.dropdown a .caret{
                          margin:0 0 0 5px}
-/* = Icons
--------------------------------------------------------------- */
+
 .icon-md{
     font-size:30px!important;
 }
@@ -280,8 +238,6 @@ button{
     border-radius:0 0 29px 29px;
 }
 
-/* = Dividers
--------------------------------------------------------------- */
 .divider-h{
     padding:20px 0;
 }
@@ -297,15 +253,11 @@ button{
     padding:0;
 }
 
-/* = Forms
--------------------------------------------------------------- */
 
 .form-control{
     border-color:rgba(0,0,0,.1);
     box-shadow:none;
 }
-
-/* Empty space fillers - Used on empty blocs to fill them out */
 
 .empty-column,.empty-column.thin{
     width:100%;
@@ -318,13 +270,11 @@ button{
 .empty-column.thin{
     height:150px;
 }
-/* iFrame */
+
 
 iframe{
     border:0;
 }
-/* = Carousel
--------------------------------------------------------------- */
 
 .carousel-control span{
     position: absolute;
@@ -343,20 +293,10 @@ iframe{
     margin: 0 4px -1px;
 }
 
-/* = Custom Colour Styling
--------------------------------------------------------------- */
-
-/* Background colour styles */
-
 .bgc-white{
     background-color:#ffffff;
 }
 
-
-
-
-/* = Mobile adjustments
--------------------------------------------------------------- */
 @media (max-width: 1024px)
 {
     .bloc{
@@ -368,7 +308,7 @@ iframe{
 {
     .container{width:100%;}
     .b-parallax{background-attachment:scroll;}
-    .page-container, #hero-bloc{overflow-x: hidden;position: relative;} /* Prevent unwanted side scroll on mobile */
+    .page-container, #hero-bloc{overflow-x: hidden;position: relative;}
 }
 @media (max-width: 767px)
 {
