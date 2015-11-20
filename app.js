@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var env = require('node-env-file');
+var mustacheExpress=require('mustache-express');
 
 var app = express();
 
@@ -22,7 +23,11 @@ app.db = mongoose.connect(process.env.MONGOLAB_URI);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
 app.set('layout','layout');
-app.engine('html', require('hogan-express'));;
+app.engine('html', require('hogan-express'));
+
+//app.set('views', __dirname + '/html');
+
+//app.engine('mustache', mustacheExpress());
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));

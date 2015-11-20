@@ -3,13 +3,12 @@ var router = express.Router();
 var mongoose = require('mongoose');
 
 // our db models
-var Person = require("../models/person.js");
-var Course = require("../models/course.js");
+var Moment = require("../models/moment.js");
 
 // S3 File dependencies
 var AWS = require('aws-sdk');
 var awsBucketName = process.env.AWS_BUCKET_NAME;
-var s3Path = process.env.AWS_S3_PATH; // TODO - we shouldn't hard code the path, but get a temp URL dynamically using aws-sdk's getObject
+var s3Path = process.env.AWS_S3_PATH;
 AWS.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY,
   secretAccessKey: process.env.AWS_SECRET_KEY
@@ -32,84 +31,38 @@ router.get('/', function(req, res) {
   console.log('home page requested!');
 
   var jsonData = {
-  	'name': 'itp-directory',
+  	'name': 'moments',
   	'api-status':'OK'
   }
 
-  // respond with json data
-  //res.json(jsonData)
-
-  // respond by redirecting
-  //res.redirect('/directory')
-
-  // respond with html
-  res.render('directory.html')
+    res.render('moments2.html')
 
 });
 
-router.get('/add-person', function(req,res){
+router.get('/add-moment', function(req,res){
 
-  res.render('add.html')
-
-})
-
-router.get('/add-person-with-image', function(req,res){
-
-  res.render('add-with-image.html')
+    res.render('add-moment.html')
 
 })
 
-router.get('/directory', function(req,res){
+router.get('/find-moment', function(req,res){
 
-  res.render('directory.html')
+    res.render('find-moment.html')
+
+})
+
+router.get('/moments', function(req,res){
+
+  res.render('moments2.html')
 
 })
 
 
-router.get('/edit/:id', function(req,res){
+router.get('/:id', function(req,res){ // for edit
 
   var requestedId = req.params.id;
 
-  Person.findById(requestedId,function(err,data){
-    if(err){
-      var error = {
-        status: "ERROR",
-        message: err
-      }
-      return res.json(err)
-    }
-
-    console.log(data); 
-
-    var viewData = {
-      pageTitle: "Edit " + data.name,
-      person: data
-    }
-
-    res.render('edit.html',viewData);
-
-  })
-
-})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-router.get('/edit/:id', function(req,res){
-
-  var requestedId = req.params.id;
-
-  Person.findById(requestedId,function(err,data){
+  Moment.findById(requestedId,function(err,data){
     if(err){
       var error = {
         status: "ERROR",
@@ -120,10 +73,10 @@ router.get('/edit/:id', function(req,res){
 
     var viewData = {
       status: "OK",
-      person: data
+      moment: data
     }
 
-    return res.render('edit.html',viewData);
+    return res.render('edit-moment.html',viewData);
   })
 
 })
@@ -133,21 +86,16 @@ router.post('/api/create', function(req,res){
 
   console.log(req.body);
 
-  var personObj = {
-    name: req.body.name,
-    itpYear: req.body.itpYear,
-    interests: req.body.interests.split(','),
-    link: req.body.link,
-    imageUrl: req.body.imageUrl,
-    slug : req.body.name.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-')
-  }
+    var momentObj = {
+        momentdate:req.body.datepicker_input,
+        category: req.body.sel1,
+        memo: req.body.memo,
+        imageUrl: req.body.imageUrl
+    }
 
-  if (req.body.hasGlasses == 'yes') personObj['hasGlasses'] = true;
-  else personObj['hasGlasses'] = false;
+  var moment = new Moment(momentObj);
 
-  var person = new Person(personObj);
-
-  person.save(function(err,data){
+  moment.save(function(err,data){
     if(err){
       var error = {
         status: "ERROR",
@@ -172,18 +120,17 @@ router.post('/api/edit/:id', function(req,res){
   console.log(req.body);
   var requestedId = req.params.id;
 
-  var personObj = {
-    name: req.body.name,
-    itpYear: req.body.itpYear,
-    interests: req.body.interests.split(','),
-    link: req.body.link,
-    imageUrl: req.body.imageUrl,
-    slug : req.body.name.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'_')
-  }
+    var momentObj = {
+        momentdate:req.body.datepicker_input,
+        category: req.body.sel1,
+        memo: req.body.memo,
+        imageUrl: req.body.imageUrl
+        //slug : req.body.name.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-')
+    }
 
-  console.log(personObj);
+    console.log(momentObj);
 
-  Person.findByIdAndUpdate(requestedId,personObj,function(err,data){
+  Moment.findByIdAndUpdate(requestedId,momentObj,function(err,data){
     if(err){
       var error = {
         status: "ERROR",
@@ -194,32 +141,70 @@ router.post('/api/edit/:id', function(req,res){
 
     var jsonData = {
       status: "OK",
-      person: data
+      moment: data
     }
 
-    //return res.json(jsonData);
+      return res.redirect('/moments');
 
-    return res.redirect('/directory');
 
   })
 
 })
 
+router.post('/api/find', function(req,res){
+
+    console.log(req.body);
+    var req_memo = req.body.find_memo;
+    console.log(req_memo);
+
+    Moment.find({'memo':req_memo},function(err,data){
+        if(err){
+            var error = {
+                status: "ERROR",
+                message: err
+            }
+            return res.json(err)
+        }
+
+        var jsonData = {
+            status: "OK",
+            moment: data
+        }
+
+        return res.json(jsonData);
+    })
+
+})
+
+
+
 router.post('/api/create/image', multipartMiddleware, function(req,res){
 
   console.log('the incoming data >> ' + JSON.stringify(req.body));
   console.log('the incoming image file >> ' + JSON.stringify(req.files.image));
+   //console.log("DATEPICKER: "+JSON.stringify(req.body.datepicker_input));
 
-  var personObj = {
-    name: req.body.name,
-    itpYear: req.body.itpYear,
-    interests: req.body.interests.split(','),
-    link: req.body.link,
-    slug : req.body.name.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-')
+  var momentObj = {
+      momentdate:req.body.datepicker_input,
+    category: req.body.sel1,
+    memo: req.body.memo
+    //slug : req.body.name.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-')
   }
 
-  if (req.body.hasGlasses == 'yes') personObj['hasGlasses'] = true;
-  else personObj['hasGlasses'] = false;
+    console.log("MOMENTDATE: "+momentObj['momentdate']);
+
+    var date_from_reply=new Date(momentObj['momentdate']);
+    var date_to_reply=new Date("2013-11-18");
+
+    //var timeinmilisec=today.getTime() - date_to_reply.getTime();
+    var timeinmilisec=date_from_reply.getTime() - date_to_reply.getTime();
+    var passtime=Math.floor(timeinmilisec / (1000 * 60 * 60 * 24));
+    momentObj['passtime']=parseInt(passtime);
+
+    console.log(momentObj['passtime']);
+
+  //if (req.body.hasGlasses == 'yes') momentObj['hasGlasses'] = true;
+  //else momentObj['hasGlasses'] = false;
 
 
   // NOW, we need to deal with the image
@@ -260,12 +245,12 @@ router.post('/api/create/image', multipartMiddleware, function(req,res){
 
         // now that we have the image
         // we can add the s3 url our person object from above
-        personObj['imageUrl'] = s3Path + cleanedFileName;
+        momentObj['imageUrl'] = s3Path + cleanedFileName;
 
         // now, we can create our person instance
-        var person = new Person(personObj);
+        var moment = new Moment(momentObj);
 
-        person.save(function(err,data){
+        moment.save(function(err,data){
           if(err){
             var error = {
               status: "ERROR",
@@ -276,10 +261,12 @@ router.post('/api/create/image', multipartMiddleware, function(req,res){
 
           var jsonData = {
             status: "OK",
-            person: data
+            moment: data
           }
 
-          return res.json(jsonData);        
+
+            return res.redirect('/moments');
+
         })
 
       }
@@ -312,49 +299,55 @@ function cleanFileName (filename) {
 
 router.get('/api/get', function(req,res){
 
-  Person.find(function(err,data){
 
-      if(err){
-        var error = {
-          status: "ERROR",
-          message: err
-        }
-        return res.json(err)
-      }
+    Moment.find({}).sort('-passtime').exec(function(err,data){
+        if(err){
+                  var error = {
+                    status: "ERROR",
+                    message: err
+                  }
+                  return res.json(err)
+                }
 
-      var jsonData = {
-        status: "OK",
-        people: data
-      }
+                var jsonData = {
+                  status: "OK",
+                  moment: data
+                }
 
-      return res.json(jsonData);
-
-  })
+                return res.json(jsonData);
+    });
 
 })
 
-router.get('/api/get/year/:itpYear',function(req,res){
 
-  var requestedITPYear = req.params.itpYear;
+router.get('/api/delete/:id', function(req, res){
 
-  console.log(requestedITPYear);
+    var requestedId = req.param('id');
+    console.log(requestedId);
+    //if(requestedId===1234){console.log("1234");}
 
-  Person.find({itpYear:requestedITPYear},function(err,data){
-      if(err){
-        var error = {
-          status: "ERROR",
-          message: err
+    // Mongoose method to remove, http://mongoosejs.com/docs/api.html#model_Model.findByIdAndRemove
+    Moment.findByIdAndRemove(requestedId,function(err, data){
+        if(err || data == null){
+            var error = {status:'ERROR', message: 'Could not find that moment to delete'};
+            return res.json(error);
         }
-        return res.json(err)
-      }
 
-      var jsonData = {
-        status: "OK",
-        people: data
-      }
+        // otherwise, respond back with success
+        var jsonData = {
+            status: 'OK',
+            message: 'Successfully deleted id ' + requestedId
+        }
 
-      return res.json(jsonData);    
-  })
+        //res.json(jsonData);
+
+        console.log(jsonData);
+
+        res.redirect('/moments');
+
+
+
+    })
 
 })
 
